@@ -9,7 +9,7 @@ const removeDuplicates = (nums: number[]): number => {
     if (num !== previousElement) {
       swap(nums, index, uniqueIndex);
       previousElement = num;
-      previousElement++;
+      uniqueIndex++;
     }
   }
 
