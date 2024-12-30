@@ -1,4 +1,6 @@
 // Using Two Pointer Approach
+// Time Complexity --> O(N)
+// Space Complexity -> O(1)
 const removeElement = (nums: number[], val: number): number => {
   let rightIndex = nums.length - 1;
   let leftIndex = 0;
