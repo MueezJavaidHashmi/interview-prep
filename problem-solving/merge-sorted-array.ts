@@ -1,4 +1,4 @@
-// Using two pointer approach
+// Using Two Pointer Approach
 // Time Complexity --> O(N + M)
 // Space Complexity -> O(1)
 const merge = (nums1: number[], m: number, nums2: number[], n: number): void => {
