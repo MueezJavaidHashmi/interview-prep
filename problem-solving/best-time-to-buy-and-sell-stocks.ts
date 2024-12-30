@@ -6,8 +6,8 @@ const maxProfit = (prices: number[]): number => {
   let maxProfit = 0;
 
   for (const price of prices) {
-    if (price < minPrice) minPrice = price;
-    else if (price - minPrice > maxProfit) maxProfit = price - minPrice;
+    minPrice = Math.min(price, minPrice);
+    maxProfit = Math.max(maxProfit, price - minPrice);
   }
 
   return maxProfit;
