@@ -10,3 +10,25 @@ const hIndex = (citations: number[]): number => {
   }
   return 0;
 };
+
+
+// Using count sort
+// Time Complexity --> O(N)
+// Space Complexity -> O(N)
+const hIndex2 = (citations: number[]): number => {
+  const totalCitations = citations.length;
+  const citationCounts = new Array(totalCitations + 1).fill(0);
+
+  for (const citation of citations) {
+    if (citation > totalCitations) citationCounts[totalCitations]++;
+    else citationCounts[citation]++;
+  }
+
+  let total = 0;
+  for (let i = totalCitations; i > 0; i--) {
+    total += citationCounts[i];
+    if (total >= i) return i;
+  }
+
+  return 0;
+};
