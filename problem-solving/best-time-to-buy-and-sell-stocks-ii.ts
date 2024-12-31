@@ -1,3 +1,6 @@
+// Using greedy algorithm
+// Time Complexity --> O(N)
+// Space Complexity -> O(1)
 const maxProfit = (prices: number[]): number => {
   let maximumProfit = 0;
 
