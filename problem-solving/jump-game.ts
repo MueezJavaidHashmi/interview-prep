@@ -1,3 +1,6 @@
+// Using greedy algorithm
+// Time Complexity --> O(N)
+// Space Complexity -> O(1)
 const canJump = (nums: number[]): boolean => {
   let targetIndex = nums.length - 1;
 
