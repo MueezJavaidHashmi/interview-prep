@@ -1,28 +1,19 @@
-// Using two passes approach
+// Using two pointer approach
 // Time Complexity --> O(N)
-// Space Complexity --> O(N)
+// Space Complexity --> O(1)
 const trap = (heights: number[]): number => {
-  const waters: number[] = Array(heights.length).fill(0);
+  let left = 0;
+  let right = heights.length - 1;
+  let maxLeftHeight = -Infinity;
+  let maxRightHeight = -Infinity;
+  let water = 0;
 
-  let max = 0;
-  let maxIndex = -1;
-  for (const [index, height] of heights.entries()) {
-    if (height >= max) {
-      for (let j = maxIndex + 1; j < index; j++) waters[j] = max - heights[j];
-      max = height;
-      maxIndex = index;
-    }
+  while (left <= right) {
+    maxLeftHeight = Math.max(maxLeftHeight, heights[left]);
+    maxRightHeight = Math.max(maxRightHeight, heights[right]);
+    if (maxLeftHeight < maxRightHeight) water += maxLeftHeight - heights[left++];
+    else water += maxRightHeight - heights[right--];
   }
 
-  max = 0;
-  maxIndex = heights.length;
-  for (let i = heights.length - 1; i >= 0; i--) {
-    if (heights[i] >= max) {
-      for (let j = maxIndex - 1; j > i; j--) waters[j] = max - heights[j];
-      max = heights[i];
-      maxIndex = i;
-    }
-  }
-
-  return waters.reduce((sum, water) => sum + water, 0);
+  return water;
 };
