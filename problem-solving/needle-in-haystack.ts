@@ -1,69 +1,32 @@
-// Using Rabin-Karp algorithm
+// Using Knuth-Morris-Pratt algorithm
 // Time Complexity --> O(N + M)
-// Space Complexity -> O(1)
+// Space Complexity -> O(M)
 const strStr = (haystack: string, needle: string): number => {
-  const base = 26;
-  const prime = 1e9 + 7;
+  const lpsArray = createLpsArray(needle);
 
-  const needleHash = computeHash(needle, needle.length, base, prime);
-  let currentHash = computeHash(haystack, needle.length, base, prime);
+  let j = 0;
+  for (let i = 0; i < haystack.length; i++) {
+    while (j > 0 && needle[j] !== haystack[i]) j = lpsArray[j - 1];
 
-  if (needleHash === currentHash && haystack.slice(0, needle.length) === needle) return 0;
+    if (needle[j] === haystack[i]) j++;
 
-  for (let i = 1; i <= haystack.length - needle.length; i++) {
-    currentHash = updateHash(
-      haystack,
-      needle.length,
-      currentHash,
-      haystack[i - 1],
-      haystack[i + needle.length - 1],
-      base,
-      prime,
-    );
-
-    if (currentHash === needleHash && haystack.slice(i, i + needle.length) === needle) return i;
+    if (j === needle.length) return i - j + 1;
   }
 
   return -1;
-};
-
-const computeHash = (s: string, patternLength: number, base: number, modulus: number): number => {
-  let hash = 0;
-
-  for (let i = 0; i < patternLength; i++) {
-    hash = (hash * base + s.charCodeAt(i)) % modulus;
-  }
-
-  return hash;
-};
-
-const updateHash = (
-  s: string,
-  patternLength: number,
-  oldHash: number,
-  lastChar: string,
-  currentChar: string,
-  base: number,
-  modulus: number,
-): number => {
-  let hash = oldHash;
-
-  hash = (hash - lastChar.charCodeAt(0) * modularExponentiation(base, patternLength - 1, modulus)) % modulus;
-
-  hash = (hash * base + currentChar.charCodeAt(0)) % modulus;
-
-  return hash < 0 ? hash + modulus : hash;
 }
 
-const modularExponentiation = (base: number, exponent: number, modulus: number): number => {
-  let result = 1;
-  let currentBase = base % modulus;
+const createLpsArray = (needle: string): number[] => {
+  const lpsArray: number[] = new Array(needle.length).fill(0);
 
-  while (exponent > 0) {
-    if (exponent % 2 === 1) result = (result * currentBase) % modulus;
-    currentBase = (currentBase * currentBase) % modulus;
-    exponent = Math.floor(exponent / 2);
+  let len = 0;
+  for (let i = 1; i < needle.length; i++) {
+    while (len > 0 && needle[i] !== needle[len]) len = lpsArray[len - 1];
+
+    if (needle[i] === needle[len]) len++;
+
+    lpsArray[i] = len;
   }
 
-  return result;
-}
+  return lpsArray;
+};
