@@ -1,3 +1,6 @@
+// Using sliding window approach
+// Time Complexity --> O(N)
+// Space Complexity -> O(N)
 const minSubArrayLen = (target: number, nums: number[]): number => {
   let sum = 0, left = 0, minLength = Infinity;
 
